@@ -3,8 +3,10 @@
 A Tic-Tac-Toe game with a graphical interface built using Pygame, featuring an unbeatable AI opponent powered by the Minimax algorithm.
 
 ## Author
-
-**Saif**
+**Saif Al Saad**<br>
+🎓 BSc in **Software Engineering**<br>
+🔍 Major in **Software Quality Assurance & Testing**<br>
+🏫 **Daffodil International University**<br>
 
 ## Features
 
