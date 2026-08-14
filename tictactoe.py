@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+import random
 
 X = "X"
 O = "O"
@@ -142,6 +143,114 @@ def minimax(board):
                 best_value = value
                 best_action = action
         return best_action
+
+
+def heuristic(board):
+    """
+    Evaluates a board from X's perspective without full search.
+    Positive values favor X, negative values favor O.
+    """
+    win = winner(board)
+    if win == X:
+        return 100
+    elif win == O:
+        return -100
+
+    lines = [
+        [board[0][0], board[0][1], board[0][2]],
+        [board[1][0], board[1][1], board[1][2]],
+        [board[2][0], board[2][1], board[2][2]],
+        [board[0][0], board[1][0], board[2][0]],
+        [board[0][1], board[1][1], board[2][1]],
+        [board[0][2], board[1][2], board[2][2]],
+        [board[0][0], board[1][1], board[2][2]],
+        [board[0][2], board[1][1], board[2][0]],
+    ]
+
+    score = 0
+    for line in lines:
+        xs = line.count(X)
+        os = line.count(O)
+        if os == 0 and xs == 2:
+            score += 10
+        elif os == 0 and xs == 1:
+            score += 1
+        elif xs == 0 and os == 2:
+            score -= 10
+        elif xs == 0 and os == 1:
+            score -= 1
+    return score
+
+
+def max_value_limited(board, depth):
+    """
+    Helper function: returns the maximum heuristic value achievable from
+    this board state, searching at most `depth` plies ahead.
+    """
+    if terminal(board) or depth == 0:
+        return heuristic(board)
+
+    v = -math.inf
+    for action in actions(board):
+        v = max(v, min_value_limited(result(board, action), depth - 1))
+    return v
+
+
+def min_value_limited(board, depth):
+    """
+    Helper function: returns the minimum heuristic value achievable from
+    this board state, searching at most `depth` plies ahead.
+    """
+    if terminal(board) or depth == 0:
+        return heuristic(board)
+
+    v = math.inf
+    for action in actions(board):
+        v = min(v, max_value_limited(result(board, action), depth - 1))
+    return v
+
+
+def minimax_limited(board, depth):
+    """
+    Returns the best action for the current player on the board, searching
+    only `depth` plies ahead and using a heuristic at the search limit.
+    """
+    if terminal(board):
+        return None
+
+    current_player = player(board)
+
+    if current_player == X:
+        best_value = -math.inf
+        best_action = None
+        for action in actions(board):
+            value = min_value_limited(result(board, action), depth - 1)
+            if value > best_value:
+                best_value = value
+                best_action = action
+        return best_action
+    else:
+        best_value = math.inf
+        best_action = None
+        for action in actions(board):
+            value = max_value_limited(result(board, action), depth - 1)
+            if value < best_value:
+                best_value = value
+                best_action = action
+        return best_action
+
+
+def ai_move(board, difficulty):
+    """
+    Returns the AI's action on the board based on the selected difficulty:
+    "Low" picks randomly, "Medium" uses shallow lookahead, "High" plays optimally.
+    """
+    if difficulty == "Low":
+        return random.choice(list(actions(board)))
+    elif difficulty == "Medium":
+        return minimax_limited(board, 2)
+    else:
+        return minimax(board)
 
 
 def max_value(board):
