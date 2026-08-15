@@ -10,10 +10,12 @@ A Tic-Tac-Toe game with a graphical interface built using Pygame, featuring an u
 
 ## Features
 
-- Play as X or O against an AI opponent
+- Play as X or O against an AI opponent, or play locally with a friend in 2-Player mode
 - AI uses the Minimax algorithm to play optimally (it will never lose)
-- Simple, clean graphical interface built with Pygame
-- "Play Again" option after each game ends
+- Score tracker (X wins / O wins / Ties) that persists across rounds
+- Smooth, animated interface: eased hover states, pop-in marks, animated win line, screen transitions
+- Sound effects for moves, wins, and ties, with a mute toggle
+- "Play Again" and "Back to Menu" options after each game
 
 ## Requirements
 
@@ -41,7 +43,7 @@ Run the game with:
 python runner.py
 ```
 
-Choose to play as X or O, then click on the board to make your move. The AI will respond automatically.
+Choose a game mode (vs Computer or 2 Player), then choose your side and difficulty if playing the AI. Click on the board to make your move. Sound effects can be muted with the speaker icon in the top-right corner.
 
 ## Project Structure
 
