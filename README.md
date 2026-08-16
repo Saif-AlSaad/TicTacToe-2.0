@@ -11,7 +11,7 @@ A Tic-Tac-Toe game with a graphical interface built using Pygame, featuring an u
 ## Features
 
 - Play as X or O against an AI opponent, or play locally with a friend in 2-Player mode
-- AI uses the Minimax algorithm to play optimally (it will never lose)
+- Three AI difficulty levels: Low (random moves), Medium (shallow lookahead), and High (perfect play via Minimax — it never loses)
 - Score tracker (X wins / O wins / Ties) that persists across rounds
 - Smooth, animated interface: eased hover states, pop-in marks, animated win line, screen transitions
 - Sound effects for moves, wins, and ties, with a mute toggle
@@ -43,7 +43,7 @@ Run the game with:
 python runner.py
 ```
 
-Choose a game mode (vs Computer or 2 Player), then choose your side and difficulty if playing the AI. Click on the board to make your move. Sound effects can be muted with the speaker icon in the top-right corner.
+Choose a game mode (vs Computer or 2 Player). If playing the computer, choose your side (X or O) and a difficulty level (Low / Medium / High), then click on the board to make your move. The AI will respond automatically. Sound effects can be muted with the speaker icon in the top-right corner.
 
 ## Project Structure
 
@@ -66,9 +66,12 @@ The AI uses the **Minimax algorithm** to determine the optimal move at each turn
 - `winner(board)` — checks for a winner
 - `terminal(board)` — checks if the game has ended
 - `utility(board)` — scores a finished game (`1` for X win, `-1` for O win, `0` for a tie)
+- `heuristic(board)` — evaluates a board from X's perspective without a full search (used at the search limit)
 - `minimax(board)` — recursively explores all possible outcomes to choose the best move, assuming both players play optimally
+- `minimax_limited(board, depth)` — a depth-limited version of Minimax that uses the heuristic when the search limit is reached
+- `ai_move(board, difficulty)` — picks a move based on difficulty: `"Low"` plays randomly, `"Medium"` searches two plies ahead, and `"High"` plays optimally
 
-Because both players play perfectly, a game between two optimal players (or against the AI, if you also play well) will always end in a tie.
+Because both players play perfectly on **High** difficulty, a game between the AI (at High) and a human who also plays well will always end in a tie.
 
 ## License
 
